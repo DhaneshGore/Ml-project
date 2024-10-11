@@ -1,10 +1,6 @@
 # -*- coding: utf-8 -*-
 
-<<<<<<< HEAD
-from flask import Flask, request, jsonify
-=======
-from flask import Flask, request
->>>>>>> 414bd701120651d6d9ddd31d44e9f58191f926eb
+from flask import Flask, request, jsonify, render_template
 import numpy as np
 import pickle
 import pandas as pd
@@ -15,6 +11,10 @@ Swagger(app)
 
 pickle_in = open("logreg.pkl", "rb")
 model = pickle.load(pickle_in)
+
+@app.route('/')
+def home():
+    return render_template('index.html')
 
 @app.route('/predict', methods=["GET"])
 def predict_class():

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Prediction</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container">
+        <h1 class="mt-5">Predict Customer Purchase Behavior</h1>
+        <form id="predictionForm" class="mt-4">
+            <div class="mb-3">
+                <label for="age" class="form-label">Age:</label>
+                <input type="number" class="form-control" id="age" required>
+            </div>
+            <div class="mb-3">
+                <label for="new_user" class="form-label">New User (1 for Yes, 0 for No):</label>
+                <input type="number" class="form-control" id="new_user" required>
+            </div>
+            <div class="mb-3">
+                <label for="total_pages_visited" class="form-label">Total Pages Visited:</label>
+                <input type="number" class="form-control" id="total_pages_visited" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Predict</button>
+        </form>
+        <div id="result" class="mt-4"></div>
+    </div>
+
+    <script>
+        document.getElementById('predictionForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const age = document.getElementById('age').value;
+            const newUser = document.getElementById('new_user').value;
+            const totalPagesVisited = document.getElementById('total_pages_visited').value;
+
+            fetch(`/predict?age=${age}&new_user=${newUser}&total_pages_visited=${totalPagesVisited}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.prediction !== undefined) {
+                        document.getElementById('result').innerHTML = `<h3>Prediction: ${data.prediction === 1 ? 'Will Buy' : 'Will Not Buy'}</h3>`;
+                    } else {
+                        document.getElementById('result').innerHTML = `<h3>Error: ${data.error}</h3>`;
+                    }
+                })
+                .catch(error => {
+                    document.getElementById('result').innerHTML = `<h3>Error: ${error.message}</h3>`;
+                });
+        });
+    </script>
+</body>
+</html>
