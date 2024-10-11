@@ -1,6 +1,10 @@
 # -*- coding: utf-8 -*-
 
+<<<<<<< HEAD
 from flask import Flask, request, jsonify
+=======
+from flask import Flask, request
+>>>>>>> 414bd701120651d6d9ddd31d44e9f58191f926eb
 import numpy as np
 import pickle
 import pandas as pd
